@@ -1,11 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import * as React from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Login from './components/login';
-import Signup from './components/signup';
-import Dashboard from './components/dashboard';
+import Login from './component/Login/Login';
+import Signup from './component/Register/Signup';
+import Dashboard from './component/LogOut/Logout';
 const Stack = createStackNavigator();
 function MyStack() {
   return (
@@ -30,22 +30,18 @@ function MyStack() {
         name="Login"
         component={Login}
         options={
-          { title: 'Login' },
-          { headerLeft: null }
+          { title: 'Login' }
         }
       />
       <Stack.Screen
         name="Dashboard"
         component={Dashboard}
-        options={
-          { title: 'Dashboard' },
-          { headerLeft: null }
-        }
-      />
+        options={{ title: 'Dashboard' }} />
     </Stack.Navigator>
   );
 }
 export default function App() {
+
   return (
     <NavigationContainer>
       <MyStack />
