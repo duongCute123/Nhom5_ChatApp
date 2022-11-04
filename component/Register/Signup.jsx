@@ -1,8 +1,7 @@
 // components/signup.js
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator } from 'react-native';
-import firebase from '../../database/firebase';
-
+import { firebase } from '../../database/firebase';
 export default class Signup extends Component {
 
     constructor() {
@@ -21,7 +20,7 @@ export default class Signup extends Component {
     }
     registerUser = () => {
         if (this.state.email === '' && this.state.password === '') {
-            Alert.alert('Enter details to signup!')
+            Alert.alert('Vui lòng nhập đầy đủ thông tin đăng ký!')
         } else {
             this.setState({
                 isLoading: true,
@@ -33,7 +32,7 @@ export default class Signup extends Component {
                     res.user.updateProfile({
                         displayName: this.state.displayName
                     })
-                    console.log('User registered successfully!')
+                    console.log('Tạo tài khoản thành công!')
                     this.setState({
                         isLoading: false,
                         displayName: '',
@@ -57,19 +56,19 @@ export default class Signup extends Component {
             <View style={styles.container}>
                 <TextInput
                     style={styles.inputStyle}
-                    placeholder="Name"
+                    placeholder="Enter Name"
                     value={this.state.displayName}
                     onChangeText={(val) => this.updateInputVal(val, 'displayName')}
                 />
                 <TextInput
                     style={styles.inputStyle}
-                    placeholder="Email"
+                    placeholder="Enter Email"
                     value={this.state.email}
                     onChangeText={(val) => this.updateInputVal(val, 'email')}
                 />
                 <TextInput
                     style={styles.inputStyle}
-                    placeholder="Password"
+                    placeholder="Enter Password"
                     value={this.state.password}
                     onChangeText={(val) => this.updateInputVal(val, 'password')}
                     maxLength={15}
@@ -83,7 +82,7 @@ export default class Signup extends Component {
                 <Text
                     style={styles.loginText}
                     onPress={() => this.props.navigation.navigate('Login')}>
-                    Already Registered? Click here to login
+                    Bạn đã có tài khoản? Đăng nhập nó
                 </Text>
             </View>
         );

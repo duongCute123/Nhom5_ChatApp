@@ -1,8 +1,7 @@
 // components/login.js
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator } from 'react-native';
-import firebase from '../database/firebase';
-
+import { firebase } from '../../database/firebase';
 export default class Login extends Component {
 
     constructor() {
@@ -20,7 +19,7 @@ export default class Login extends Component {
     }
     userLogin = () => {
         if (this.state.email === '' && this.state.password === '') {
-            Alert.alert('Enter details to signin!')
+            Alert.alert('Vui lòng nhập thông tin vào!')
         } else {
             this.setState({
                 isLoading: true,
@@ -30,7 +29,7 @@ export default class Login extends Component {
                 .signInWithEmailAndPassword(this.state.email, this.state.password)
                 .then((res) => {
                     console.log(res)
-                    console.log('User logged-in successfully!')
+                    console.log('Đăng nhập thành công')
                     this.setState({
                         isLoading: false,
                         email: '',
@@ -53,13 +52,13 @@ export default class Login extends Component {
             <View style={styles.container}>
                 <TextInput
                     style={styles.inputStyle}
-                    placeholder="Email"
+                    placeholder="Enter Email"
                     value={this.state.email}
                     onChangeText={(val) => this.updateInputVal(val, 'email')}
                 />
                 <TextInput
                     style={styles.inputStyle}
-                    placeholder="Password"
+                    placeholder="Enter password"
                     value={this.state.password}
                     onChangeText={(val) => this.updateInputVal(val, 'password')}
                     maxLength={15}
@@ -73,7 +72,7 @@ export default class Login extends Component {
                 <Text
                     style={styles.loginText}
                     onPress={() => this.props.navigation.navigate('Signup')}>
-                    Don't have account? Click here to signup
+                    Bạn chưa có tài khoản? Tạo ngay Signup
                 </Text>
             </View>
         );
