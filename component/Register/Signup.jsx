@@ -25,10 +25,69 @@ export default class Signup extends Component {
             this.setState({
                 isLoading: true,
             })
+            // firebase
+            //     .auth()
+            //     .createUserWithEmailAndPassword(this.state.email, this.state.password)
+            //     .then(
+            //         () => {
+            //             firebase
+            //                 .auth()
+            //                 .currentUser.sendEmailVerification({
+            //                     handleCodeInApp: true,
+            //                     url: 'loginreactnative-e75d1.firebaseapp.com',
+            //                 })
+            //                 .then(() => {
+            //                     alert("Vui lòng xem enmail")
+            //                 })
+            //                 .catch((error) => {
+            //                     alert(error.message)
+            //                 })
+            //                 .then(()=>{
+            //                     firebase.firestore().collection()
+            //                 })
+            //         }
+            //     )
+            // firebase
+            //     .auth()
+            //     .currentUser.sendEmailVerification(actionCodeSettings)
+            //     .then(() => {
+            //         //useState used on my loading (user can cancel this loading and exit               this task
+            //         setTextContent('Waiting for verification. Check your email!\nYou can close this verification and came back later');
+            //         const unsubscribeOnUserChanged = firebase
+            //             .auth()
+            //             .onUserChanged(response => {
+            //                 const unsubscribeSetInterval = setInterval(() => {//this works as a next in for-like
+            //                     firebase.auth().currentUser.reload();
+            //                 }, 30000);
+            //                 if (response.emailVerified) {
+            //                     clearInterval(unsubscribeSetInterval); //stop setInterval
+            //                     setLoading(false); //close loading describes above
+            //                     navigation.goBack(); //return to parent (in my case to profile)
+            //                     return unsubscribeOnUserChanged(); //unsubscribe onUserChanged
+            //                 }
+            //             });
+            //     })
+            //     .catch(error => {
+            //         setLoading(false);
+            //         setError(true);
+            //         errorHandle(error);
+            //     });
             firebase
                 .auth()
                 .createUserWithEmailAndPassword(this.state.email, this.state.password)
                 .then((res) => {
+                    firebase
+                        .auth()
+                        .currentUser.sendEmailVerification({
+                            handleCodeInApp: true,
+                            url: 'https://loginreactnative-e75d1.firebaseapp.com',
+                        })
+                        .then(() => {
+                            alert("Vui lòng xem email để xác thực")
+                        })
+                        .catch((error) => {
+                            alert(error.message)
+                        })
                     res.user.updateProfile({
                         displayName: this.state.displayName
                     })
@@ -103,7 +162,9 @@ const styles = StyleSheet.create({
         paddingBottom: 15,
         alignSelf: "center",
         borderColor: "#ccc",
-        borderBottomWidth: 1
+        borderBottomWidth: 1,
+        alignItems: "center",
+        justifyContent: "center"
     },
     loginText: {
         color: '#3740FE',
