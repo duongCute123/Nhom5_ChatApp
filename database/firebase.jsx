@@ -1,5 +1,6 @@
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
+import { getFirestore } from 'firebase/firestore';
 const firebaseConfig = {
   apiKey: "AIzaSyDGARW6u5a0SpboIuDlgLZ7aGR-nTanWx0",
   authDomain: "loginreactnative-e75d1.firebaseapp.com",
@@ -13,3 +14,4 @@ if (firebase.app.length) {
   firebase.initializeApp(firebaseConfig)
 }
 export { firebase };
+export const database = getFirestore();
