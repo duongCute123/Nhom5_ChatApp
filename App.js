@@ -95,7 +95,7 @@ import Login from './component/Login/Login';
 import Signup from './component/Register/Signup';
 import Dashboard from './component/LogOut/Logout';
 import ChatOne from './component/Chat/ChatOne';
-import Chat from './component/Chat/Chat';
+import Chats from './component/Chat/Chat';
 const Stack = createStackNavigator();
 function MyStack() {
   return (
@@ -132,7 +132,7 @@ function MyStack() {
       />
       <Stack.Screen
         name="Dashboard"
-        component={Chat}
+        component={Chats}
         options={{ title: 'Dashboard' }} />
     </Stack.Navigator>
   );

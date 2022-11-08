@@ -5,8 +5,8 @@ import { useState } from "react";
 import { firebase } from "../../database/firebase";
 import { View, Text, TextInput, Image, Button } from "react-native";
 const DangXuat = () => {
-    const [uid, setUid] = ''
-    const [displayName, setdisplayName] = ''
+    const [uid, setUid] = useState('')
+    const [displayName, setdisplayName] = useState('')
     const signOut = () => {
         firebase.auth().signOut().then(() => {
             navigation.navigate('Login')
@@ -28,7 +28,7 @@ const DangXuat = () => {
     )
 }
 const ChatvsFriend = () => {
-
+    
 }
 const ChatOne = () => {
     return (

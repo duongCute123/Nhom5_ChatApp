@@ -15,7 +15,7 @@ import {
 } from 'firebase/firestore';
 import { firebase } from '../../database/firebase';
 import { database } from '../../database/firebase';
-export default function Chat({ navigation }) {
+export default function Chats({ navigation }) {
     const [messages, setMessages] = useState([]);
     const onSignOut = () => {
         signOut(firebase).catch(error => console.log('Error logging out: ', error));
