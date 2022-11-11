@@ -1,113 +1,87 @@
-// components/login.js
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator } from 'react-native';
-import { firebase } from '../../database/firebase';
-export default class Login extends Component {
+import {
+    StyleSheet,
+    Text,
+    View,
+    Image,
+    TextInput,
+    KeyboardAvoidingView,
+    TouchableOpacity,
+} from "react-native";
+import React, { useState, useEffect } from "react";
+import { StatusBar } from "expo-status-bar";
+import { auth } from "../../database/firebase";
+import { Button, Input } from "@rneui/themed";
+import logo from '../../assets/icon.png'
 
-    constructor() {
-        super();
-        this.state = {
-            email: '',
-            password: '',
-            isLoading: false
-        }
-    }
-    updateInputVal = (val, prop) => {
-        const state = this.state;
-        state[prop] = val;
-        this.setState(state);
-    }
-    userLogin = () => {
-        if (this.state.email === '' && this.state.password === '') {
-            Alert.alert('Vui lòng nhập thông tin vào!')
-        } else {
-            this.setState({
-                isLoading: true,
-            })
-            firebase
-                .auth()
-                .signInWithEmailAndPassword(this.state.email, this.state.password)
-                .then((res) => {
-                    console.log(res)
-                    console.log('Đăng nhập thành công')
-                    this.setState({
-                        isLoading: false,
-                        email: '',
-                        password: ''
-                    })
-                    this.props.navigation.navigate('Dashboard')
-                })
-                .catch(error => this.setState({ errorMessage: error.message }))
-        }
-    }
-    render() {
-        if (this.state.isLoading) {
-            return (
-                <View style={styles.preloader}>
-                    <ActivityIndicator size="large" color="#9E9E9E" />
-                </View>
-            )
-        }
-        return (
-            <View style={styles.container}>
-                <TextInput
-                    style={styles.inputStyle}
-                    placeholder="Enter Email"
-                    value={this.state.email}
-                    onChangeText={(val) => this.updateInputVal(val, 'email')}
+const LoginScreen = ({ navigation }) => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged((authUser) => {
+            console.log(authUser);
+            if (authUser) {
+                navigation.replace("Home");
+            }
+        });
+        return unsubscribe;
+    }, []);
+
+    const signIn = () => {
+        auth
+            .signInWithEmailAndPassword(email, password)
+            .catch((error) => alert(error));
+    };
+    return (
+        <KeyboardAvoidingView behavior="padding" style={styles.container}>
+            <StatusBar style="light" />
+            <Text h3 style={{ marginBottom: 50, fontSize: 28 }}>
+                Trang Đăng Ký Tài Khoản
+            </Text>
+            <View style={styles.inputContainer}>
+
+                <Input
+                    style={styles.inputContainer}
+                    placeholder="Nhập email"
+                    autoFocus
+                    type="email"
+                    value={email}
+                    onChangeText={(text) => setEmail(text)}
                 />
-                <TextInput
-                    style={styles.inputStyle}
-                    placeholder="Enter password"
-                    value={this.state.password}
-                    onChangeText={(val) => this.updateInputVal(val, 'password')}
-                    maxLength={15}
-                    secureTextEntry={true}
+                <Input
+                    style={styles.inputContainer}
+                    placeholder="Nhập mật khẩu"
+                    secureTextEntry
+                    type="password"
+                    value={password}
+                    onChangeText={(text) => setPassword(text)}
+                    onSubmitEditing={signIn}
                 />
-                <Button
-                    color="#3740FE"
-                    title="Signin"
-                    onPress={() => this.userLogin()}
-                />
-                <Text
-                    style={styles.loginText}
-                    onPress={() => this.props.navigation.navigate('Signup')}>
-                    Bạn chưa có tài khoản? Tạo ngay Signup
-                </Text>
             </View>
-        );
-    }
-}
+            <Button containerStyle={styles.button} onPress={signIn} title="Login" />
+
+            <Button
+                onPress={() => navigation.navigate("Register")}
+                containerStyle={styles.button}
+                title="Register"
+                type="outline"
+            />
+        </KeyboardAvoidingView>
+    );
+};
+
+export default LoginScreen;
+
 const styles = StyleSheet.create({
+    inputContainer: { width: 300 },
     container: {
         flex: 1,
-        display: "flex",
-        flexDirection: "column",
+        alignItems: "center",
         justifyContent: "center",
-        padding: 35,
-        backgroundColor: '#fff'
     },
-    inputStyle: {
-        width: '100%',
-        marginBottom: 15,
-        paddingBottom: 15,
-        alignSelf: "center",
-        borderColor: "#ccc",
-        borderBottomWidth: 1
+    button: {
+        width: 200,
+        marginTop: 10,
     },
-    loginText: {
-        color: '#3740FE',
-        marginTop: 25,
-        textAlign: 'center'
-    },
-    preloader: {
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        position: 'absolute',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#fff'
-    }
 });
+
