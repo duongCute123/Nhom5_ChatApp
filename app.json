@@ -4,6 +4,9 @@
     "slug": "Nhom5_AppChat",
     "version": "1.0.0",
     "orientation": "portrait",
+    "packagerOpts": {
+      "sourceExts": ["cjs"]
+    },
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
